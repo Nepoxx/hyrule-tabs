@@ -6,18 +6,47 @@ let midi = null;
 
 // shortcut: every note lasts the same time, upgrade by keeping MIDI durations and rests.
 const NOTE = 0.4;
-let ctx = null, pitches = [];
+let ctx = null, pitches = [], spans = []; // spans[i] is the notation for pitches[i]
+
+function show(lines) {
+  spans = [];
+  const nodes = [];
+  for (const line of lines) {
+    for (const tok of line.split(' ').filter(Boolean)) {
+      const s = document.createElement('span');
+      s.textContent = tok;
+      spans.push(s);
+      nodes.push(s, ' ');
+    }
+    nodes.push('\n');
+  }
+  $('out').replaceChildren(...nodes);
+}
+
+function mark(i) {
+  spans.forEach((s, j) => s.classList.toggle('on', j === i));
+  spans[i]?.scrollIntoView({ block: 'nearest' });
+}
 
 function stop() {
   ctx?.close();
   ctx = null;
+  mark(-1);
 }
 
 function play() {
   stop();
-  ctx = new AudioContext();
+  const mine = (ctx = new AudioContext());
+  const start = mine.currentTime + 0.05;
+  const tick = () => {
+    if (ctx !== mine) return; // stopped or restarted
+    const i = Math.floor((mine.currentTime - start) / NOTE);
+    mark(i < pitches.length ? i : -1);
+    if (i < pitches.length) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
   pitches.forEach((p, i) => {
-    const t = ctx.currentTime + 0.05 + i * NOTE;
+    const t = start + i * NOTE;
     const osc = ctx.createOscillator(), gain = ctx.createGain();
     osc.frequency.value = 261.6256 * 2 ** (p / 12); // C4 = pitch 0
     gain.gain.setValueAtTime(0, t);
@@ -36,10 +65,11 @@ $('stop').addEventListener('click', stop);
 function render(getLines) {
   stop();
   pitches = [];
+  spans = [];
   try {
     const r = convert(getLines());
     pitches = r.pitches;
-    $('out').textContent = r.lines.join('\n');
+    show(r.lines);
     const notes = [];
     if (r.octaves) notes.push(`Moved ${Math.abs(r.octaves)} octave(s) ${r.octaves > 0 ? 'up' : 'down'} to fit.`);
     if (r.folded) notes.push(`${r.folded} note(s) still out of range were folded into it.`);
