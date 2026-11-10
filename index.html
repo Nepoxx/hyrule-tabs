@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OoT Ocarina Notation</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 16px/1.5 system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; padding: 0 1rem; }
+  textarea { width: 100%; box-sizing: border-box; font: inherit; }
+  label { display: block; margin-top: 1rem; font-weight: 600; }
+  #out { font: 1.4rem/1.9 ui-monospace, monospace; white-space: pre-wrap; margin: 0; }
+  #msg { color: #b45309; min-height: 1.5em; }
+  small { opacity: .7; }
+</style>
+</head>
+<body>
+<h1>Ocarina of Time notation</h1>
+<label for="text">Type notes <small>(A B C, do re mi, C#5, do' for an octave up; one line per bar)</small></label>
+<textarea id="text" rows="4" placeholder="re fa la si"></textarea>
+<label for="file">…or upload a MIDI file</label>
+<input id="file" type="file" accept=".mid,.midi">
+<select id="track" hidden aria-label="Track"></select>
+<p id="msg" role="status"></p>
+<pre id="out"></pre>
+<p><small>↓ ↑ = stick (whole tone) · ⇣ ⇡ = D-pad (semitone) · no arrow = neutral. Range C4–E5.</small></p>
+<script type="module" src="app.js"></script>
+</body>
+</html>
