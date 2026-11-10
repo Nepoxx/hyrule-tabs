@@ -3,27 +3,46 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OoT Ocarina Notation</title>
+<title>Hyrule Tabs</title>
+<meta name="description" content="Turn MIDI files or typed notes into Ocarina of Time ocarina button notation.">
 <style>
-  :root { color-scheme: light dark; }
-  body { font: 16px/1.5 system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; padding: 0 1rem; }
-  textarea { width: 100%; box-sizing: border-box; font: inherit; }
-  label { display: block; margin-top: 1rem; font-weight: 600; }
-  #out { font: 1.4rem/1.9 ui-monospace, monospace; white-space: pre-wrap; margin: 0; }
-  #msg { color: #b45309; min-height: 1.5em; }
-  small { opacity: .7; }
+  :root {
+    --parchment: #f3e7c4; --paper: #fbf3dc; --ink: #3b2a14; --forest: #2f5d3a; --gold: #b8892b;
+    color-scheme: light;
+  }
+  body {
+    font: 17px/1.55 Georgia, 'Times New Roman', serif; color: var(--ink);
+    background: radial-gradient(circle at 50% 0, var(--paper), var(--parchment)) fixed;
+    max-width: 42rem; margin: 0 auto; padding: 1.5rem 1rem 3rem;
+  }
+  h1 { text-align: center; color: var(--forest); font-size: 2.4rem; letter-spacing: .04em; margin: 0; }
+  h1::after { content: '◆ ◆ ◆'; display: block; color: var(--gold); font-size: .8rem; letter-spacing: .6em; margin: .3rem 0 1.2rem; }
+  .card { background: var(--paper); border: 2px solid var(--gold); border-radius: 6px; padding: 1rem 1.2rem; margin-bottom: 1rem; box-shadow: 0 0 0 4px var(--parchment), 0 0 0 5px var(--gold); }
+  textarea, select { width: 100%; box-sizing: border-box; font: inherit; color: inherit; background: #fffaf0; border: 1px solid var(--gold); border-radius: 4px; padding: .4rem; }
+  label { display: block; margin-top: .8rem; font-weight: 700; color: var(--forest); }
+  label:first-child { margin-top: 0; }
+  #out { font: 1.5rem/1.9 ui-monospace, monospace; white-space: pre-wrap; margin: 0; min-height: 2em; }
+  #msg { color: #8a3b12; min-height: 1.5em; margin: .5rem 0 0; }
+  small { opacity: .75; font-weight: 400; }
+  footer { text-align: center; font-size: .8rem; opacity: .7; }
+  a { color: var(--forest); }
 </style>
 </head>
 <body>
-<h1>Ocarina of Time notation</h1>
-<label for="text">Type notes <small>(A B C, do re mi, C#5, do' for an octave up; one line per bar)</small></label>
-<textarea id="text" rows="4" placeholder="re fa la si"></textarea>
-<label for="file">…or upload a MIDI file</label>
-<input id="file" type="file" accept=".mid,.midi">
-<select id="track" hidden aria-label="Track"></select>
-<p id="msg" role="status"></p>
-<pre id="out"></pre>
-<p><small>↓ ↑ = stick (whole tone) · ⇣ ⇡ = D-pad (semitone) · no arrow = neutral. Range C4–E5.</small></p>
+<h1>Hyrule Tabs</h1>
+<div class="card">
+  <label for="text">Type notes <small>(A B C, do re mi, C#5, do' for an octave up; one line per bar)</small></label>
+  <textarea id="text" rows="4" placeholder="re fa la si"></textarea>
+  <label for="file">…or upload a MIDI file</label>
+  <input id="file" type="file" accept=".mid,.midi">
+  <select id="track" hidden aria-label="Track"></select>
+  <p id="msg" role="status"></p>
+</div>
+<div class="card">
+  <pre id="out" aria-live="polite"></pre>
+  <small>↓ ↑ = stick (whole tone) · ⇣ ⇡ = D-pad (semitone) · no arrow = neutral · range C4–E5</small>
+</div>
+<footer>Unofficial fan project, not affiliated with or endorsed by Nintendo. · <a href="https://github.com/Nepoxx/hyrule-tabs">Source</a></footer>
 <script type="module" src="app.js"></script>
 </body>
 </html>
