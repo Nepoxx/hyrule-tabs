@@ -48,7 +48,6 @@ function render(getLines) {
     $('out').textContent = '';
     $('msg').textContent = e.message;
   }
-  $('play').disabled = !pitches.length;
 }
 
 const fromText = () => render(() => parseText($('text').value));
