@@ -97,6 +97,7 @@ export function convert(lines) {
   let i = 0;
   return {
     lines: fit.lines.map((l) => keys.slice(i, (i += l.length)).join(' ')),
+    pitches: fit.lines.flat(), // what is actually played, after octave fitting
     octaves: fit.octaves,
     folded: fit.folded,
   };

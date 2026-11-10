@@ -17,6 +17,7 @@ assert.equal(out('do4 sol4 si4 sol4')[0], '↓L ↓A Y ↑R');
 // out-of-range melodies are moved by octaves
 const high = convert(parseText('do6 re6'));
 assert.deepEqual([high.lines[0], high.octaves], ['↓X X', -1]);
+assert.deepEqual(high.pitches, [12, 14]);
 assert.throws(() => parseText('H'), /Unknown note/);
 
 // MIDI: one track, C4 then E4+G4 chord (skyline keeps G4), drums ignored
